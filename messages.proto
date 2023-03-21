@@ -53,5 +53,4 @@ enum Character {
     X = 0;
     O = 1;
     EMPTY = 2;
-    UNRECOGNIZED = 3;
 }

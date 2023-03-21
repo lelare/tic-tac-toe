@@ -35,7 +35,7 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
                 logging.info(f"Game finished")
                 yield tictactoeserver_pb2.MoveResponse(success=False, message="Game finished")
                 self.game.reset()
-            yield tictactoeserver_pb2.MoveResponse(success=True, character=character, point=move_request.point)
+            yield tictactoeserver_pb2.MoveResponse(success=True, char=character, point=move_request.point)
 
     def update(self, request_iterator, context):
         for req in request_iterator: 
@@ -49,14 +49,12 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
 
     def update_value(self, move_request, character): 
         player_response = tictactoeserver_pb2.UpdateResponce()
-        player_response.character = character
+        player_response.char = character
         player_response.point.x = move_request.point.x
         player_response.point.y = move_request.point.y
-        print(self.observers.keys())
-        print(self.updates.keys())
         for val in self.observers.keys():
             if val not in self.updates.keys():
-                self.updates[val] = player_response
+                self.updates[val].append(player_response)
 
     def update_val(self, move_request, character):
         player_response = tictactoeserver_pb2.PlayerResponse()

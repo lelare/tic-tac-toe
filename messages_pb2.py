@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emessages.proto\x12\x0ftictactoeserver\"\x1f\n\x11\x43onnectionRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x1b\n\rUpdateRequest\x12\n\n\x02id\x18\x01 \x01(\t\"b\n\x0ePlayerResponse\x12%\n\x05point\x18\x01 \x01(\x0b\x32\x16.tictactoeserver.Point\x12\x11\n\tcharacter\x18\x02 \x01(\t\x12\x16\n\x0e\x63ount_of_users\x18\x03 \x01(\x05\"b\n\x0eUpdateResponce\x12%\n\x05point\x18\x01 \x01(\x0b\x32\x16.tictactoeserver.Point\x12\x11\n\tcharacter\x18\x02 \x01(\t\x12\x16\n\x0e\x63ount_of_users\x18\x03 \x01(\x05\"@\n\x0bMoveRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12%\n\x05point\x18\x02 \x01(\x0b\x32\x16.tictactoeserver.Point\"j\n\x0cMoveResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x11\n\tcharacter\x18\x03 \x01(\t\x12%\n\x05point\x18\x04 \x01(\x0b\x32\x16.tictactoeserver.Point\"\x1d\n\x05Point\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05*6\n\tCharacter\x12\x05\n\x01X\x10\x00\x12\x05\n\x01O\x10\x01\x12\t\n\x05\x45MPTY\x10\x02\x12\x10\n\x0cUNRECOGNIZED\x10\x03\x32\xf8\x01\n\x04Game\x12P\n\x07\x63onnect\x12\".tictactoeserver.ConnectionRequest\x1a\x1f.tictactoeserver.PlayerResponse\"\x00\x12O\n\x06update\x12\x1e.tictactoeserver.UpdateRequest\x1a\x1f.tictactoeserver.UpdateResponce\"\x00(\x01\x30\x01\x12M\n\x08makeMove\x12\x1c.tictactoeserver.MoveRequest\x1a\x1d.tictactoeserver.MoveResponse\"\x00(\x01\x30\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emessages.proto\x12\x0ftictactoeserver\"\x1f\n\x11\x43onnectionRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x1b\n\rUpdateRequest\x12\n\n\x02id\x18\x01 \x01(\t\"b\n\x0ePlayerResponse\x12%\n\x05point\x18\x01 \x01(\x0b\x32\x16.tictactoeserver.Point\x12\x11\n\tcharacter\x18\x02 \x01(\t\x12\x16\n\x0e\x63ount_of_users\x18\x03 \x01(\x05\"b\n\x0eUpdateResponce\x12%\n\x05point\x18\x01 \x01(\x0b\x32\x16.tictactoeserver.Point\x12\x11\n\tcharacter\x18\x02 \x01(\t\x12\x16\n\x0e\x63ount_of_users\x18\x03 \x01(\x05\"@\n\x0bMoveRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12%\n\x05point\x18\x02 \x01(\x0b\x32\x16.tictactoeserver.Point\"j\n\x0cMoveResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x11\n\tcharacter\x18\x03 \x01(\t\x12%\n\x05point\x18\x04 \x01(\x0b\x32\x16.tictactoeserver.Point\"\x1d\n\x05Point\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05*$\n\tCharacter\x12\x05\n\x01X\x10\x00\x12\x05\n\x01O\x10\x01\x12\t\n\x05\x45MPTY\x10\x02\x32\xf8\x01\n\x04Game\x12P\n\x07\x63onnect\x12\".tictactoeserver.ConnectionRequest\x1a\x1f.tictactoeserver.PlayerResponse\"\x00\x12O\n\x06update\x12\x1e.tictactoeserver.UpdateRequest\x1a\x1f.tictactoeserver.UpdateResponce\"\x00(\x01\x30\x01\x12M\n\x08makeMove\x12\x1c.tictactoeserver.MoveRequest\x1a\x1d.tictactoeserver.MoveResponse\"\x00(\x01\x30\x01\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'messages_pb2', globals())
@@ -21,7 +21,7 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _CHARACTER._serialized_start=502
-  _CHARACTER._serialized_end=556
+  _CHARACTER._serialized_end=538
   _CONNECTIONREQUEST._serialized_start=35
   _CONNECTIONREQUEST._serialized_end=66
   _UPDATEREQUEST._serialized_start=68
@@ -36,6 +36,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _MOVERESPONSE._serialized_end=469
   _POINT._serialized_start=471
   _POINT._serialized_end=500
-  _GAME._serialized_start=559
-  _GAME._serialized_end=807
+  _GAME._serialized_start=541
+  _GAME._serialized_end=789
 # @@protoc_insertion_point(module_scope)
