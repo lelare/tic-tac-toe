@@ -1,0 +1,11 @@
+The circle will change its position based on the drone's velocity, height, and distance to the shooter. The drone can appear from the right or left corner.
+
+First, create a simple green circle texture in any image editing software and save it as "GreenCircle.png" in your Unity project's "Assets/Resources" folder.
+
+Then, create a new C# script called "DroneAimingUI" and paste the following code:
+
+Code is in .\caluclating_green_example.cs 
+
+Finally, add a Canvas to your scene by right-clicking in the Hierarchy, selecting "UI" > "Canvas". Make sure the "Render Mode" of the Canvas is set to "Screen Space - Camera" and assign the main camera to the "Render Camera" field. Attach the "DroneAimingUI" script to the Canvas GameObject and assign the shooter and drone variables in the script to the corresponding objects in your scene.
+
+The green circle will now appear on the screen, indicating the aiming point based on the drone's velocity, height, and distance to the shooter.
