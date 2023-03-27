@@ -22,12 +22,32 @@ class GameStub(object):
         self.update = channel.stream_stream(
                 '/tictactoeserver.Game/update',
                 request_serializer=messages__pb2.UpdateRequest.SerializeToString,
-                response_deserializer=messages__pb2.UpdateResponce.FromString,
+                response_deserializer=messages__pb2.UpdateResponse.FromString,
                 )
-        self.makeMove = channel.stream_stream(
+        self.makeMove = channel.unary_unary(
                 '/tictactoeserver.Game/makeMove',
                 request_serializer=messages__pb2.MoveRequest.SerializeToString,
                 response_deserializer=messages__pb2.MoveResponse.FromString,
+                )
+        self.fill = channel.unary_unary(
+                '/tictactoeserver.Game/fill',
+                request_serializer=messages__pb2.FillRequest.SerializeToString,
+                response_deserializer=messages__pb2.FillResponse.FromString,
+                )
+        self.Election = channel.unary_unary(
+                '/tictactoeserver.Game/Election',
+                request_serializer=messages__pb2.ElectionRequest.SerializeToString,
+                response_deserializer=messages__pb2.ElectionResponse.FromString,
+                )
+        self.TimeSync = channel.unary_unary(
+                '/tictactoeserver.Game/TimeSync',
+                request_serializer=messages__pb2.TimeSyncRequest.SerializeToString,
+                response_deserializer=messages__pb2.TimeSyncResponse.FromString,
+                )
+        self.ListBoard = channel.unary_unary(
+                '/tictactoeserver.Game/ListBoard',
+                request_serializer=messages__pb2.Empty.SerializeToString,
+                response_deserializer=messages__pb2.BoardState.FromString,
                 )
 
 
@@ -46,7 +66,31 @@ class GameServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def makeMove(self, request_iterator, context):
+    def makeMove(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def fill(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Election(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def TimeSync(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ListBoard(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -63,12 +107,32 @@ def add_GameServicer_to_server(servicer, server):
             'update': grpc.stream_stream_rpc_method_handler(
                     servicer.update,
                     request_deserializer=messages__pb2.UpdateRequest.FromString,
-                    response_serializer=messages__pb2.UpdateResponce.SerializeToString,
+                    response_serializer=messages__pb2.UpdateResponse.SerializeToString,
             ),
-            'makeMove': grpc.stream_stream_rpc_method_handler(
+            'makeMove': grpc.unary_unary_rpc_method_handler(
                     servicer.makeMove,
                     request_deserializer=messages__pb2.MoveRequest.FromString,
                     response_serializer=messages__pb2.MoveResponse.SerializeToString,
+            ),
+            'fill': grpc.unary_unary_rpc_method_handler(
+                    servicer.fill,
+                    request_deserializer=messages__pb2.FillRequest.FromString,
+                    response_serializer=messages__pb2.FillResponse.SerializeToString,
+            ),
+            'Election': grpc.unary_unary_rpc_method_handler(
+                    servicer.Election,
+                    request_deserializer=messages__pb2.ElectionRequest.FromString,
+                    response_serializer=messages__pb2.ElectionResponse.SerializeToString,
+            ),
+            'TimeSync': grpc.unary_unary_rpc_method_handler(
+                    servicer.TimeSync,
+                    request_deserializer=messages__pb2.TimeSyncRequest.FromString,
+                    response_serializer=messages__pb2.TimeSyncResponse.SerializeToString,
+            ),
+            'ListBoard': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListBoard,
+                    request_deserializer=messages__pb2.Empty.FromString,
+                    response_serializer=messages__pb2.BoardState.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -110,12 +174,12 @@ class Game(object):
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/tictactoeserver.Game/update',
             messages__pb2.UpdateRequest.SerializeToString,
-            messages__pb2.UpdateResponce.FromString,
+            messages__pb2.UpdateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def makeMove(request_iterator,
+    def makeMove(request,
             target,
             options=(),
             channel_credentials=None,
@@ -125,8 +189,76 @@ class Game(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_stream(request_iterator, target, '/tictactoeserver.Game/makeMove',
+        return grpc.experimental.unary_unary(request, target, '/tictactoeserver.Game/makeMove',
             messages__pb2.MoveRequest.SerializeToString,
             messages__pb2.MoveResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def fill(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/tictactoeserver.Game/fill',
+            messages__pb2.FillRequest.SerializeToString,
+            messages__pb2.FillResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Election(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/tictactoeserver.Game/Election',
+            messages__pb2.ElectionRequest.SerializeToString,
+            messages__pb2.ElectionResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def TimeSync(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/tictactoeserver.Game/TimeSync',
+            messages__pb2.TimeSyncRequest.SerializeToString,
+            messages__pb2.TimeSyncResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ListBoard(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/tictactoeserver.Game/ListBoard',
+            messages__pb2.Empty.SerializeToString,
+            messages__pb2.BoardState.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
