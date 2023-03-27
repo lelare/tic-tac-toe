@@ -1,23 +1,22 @@
 syntax = "proto3";
 
-
 package tictactoeserver;
 
 service Game {
     rpc connect (ConnectionRequest) returns (PlayerResponse) {}
-    rpc update (stream UpdateRequest) returns (stream UpdateResponce) {}
-
-    rpc makeMove (stream MoveRequest) returns (stream MoveResponse) {}
+    rpc update (stream UpdateRequest) returns (stream UpdateResponse) {}
+    rpc makeMove (MoveRequest) returns (MoveResponse) {}
+    rpc fill (FillRequest) returns (FillResponse) {}
+    rpc Election (ElectionRequest) returns (ElectionResponse) {}
+    rpc TimeSync (TimeSyncRequest) returns (TimeSyncResponse) {}
 }
 
 message ConnectionRequest {
     string id = 1;
-
 }
 
 message UpdateRequest {
     string id = 1;
-
 }
 
 message PlayerResponse {
@@ -26,7 +25,7 @@ message PlayerResponse {
     int32 count_of_users = 3;
 }
 
-message UpdateResponce {
+message UpdateResponse {
     Point point = 1;
     string character = 2;
     int32 count_of_users = 3;
@@ -44,6 +43,18 @@ message MoveResponse {
     Point point = 4;
 }
 
+message FillRequest {
+    string id = 1;
+    int32 cell_id = 2;
+    int64 timestamp = 3;
+}
+
+message FillResponse {
+    bool success = 1;
+    string message = 2;
+    repeated string board = 3;
+}
+
 message Point {
     int32 x = 1;
     int32 y = 2;
@@ -53,4 +64,23 @@ enum Character {
     X = 0;
     O = 1;
     EMPTY = 2;
+}
+
+
+message ElectionRequest {
+  int32 id = 1;
+}
+
+message ElectionResponse {
+  int32 id = 1;
+  double time = 2;
+}
+
+message TimeSyncRequest {
+  double time = 1;
+}
+
+message TimeSyncResponse {
+  int32 id = 1;
+  double time = 2;
 }

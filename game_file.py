@@ -3,18 +3,15 @@ import time
 import uuid
 from grpc import RpcError
 import grpc
-import messages_pb2 as tictactoe_pb2
-import messages_pb2_grpc as tictactoe_pb2_grpc
-from messages_pb2 import ConnectionRequest, MoveRequest, Point, UpdateRequest
+from messages_pb2 import ConnectionRequest, MoveRequest, Point, UpdateRequest, TimeSyncRequest, TimeSyncResponse, ElectionRequest, ElectionResponse
 from messages_pb2_grpc import GameStub
 from concurrent.futures import ThreadPoolExecutor
 import threading
 
 class GameComponent:
-    def __init__(self):
+    def __init__(self, client):
         self.map = {i: ' ' for i in range(9)}
-        channel = grpc.insecure_channel('localhost:50051')
-        self.client = GameStub(channel=channel)
+        self.client = client
         self.user = str(uuid.uuid4())
 
         self.draw_board()
@@ -57,12 +54,8 @@ class GameComponent:
                 thread.join()
                 break
             x, y = divmod(point, 3)
-
-            def request_generator():
-                yield MoveRequest(point=Point(x=x, y=y), id=self.user)
-
             try:
-                response = next(self.client.makeMove(request_generator()))
+                response = self.client.makeMove(MoveRequest(point=Point(x=x, y=y), id=self.user))
                 if response.success:
                     print('Move successful')
                     self.update_map(response)
@@ -72,6 +65,36 @@ class GameComponent:
             except RpcError as e:
                 logging.error(e)
 
-if __name__ == '__main__':
-    game = GameComponent()
+def query_node(address):
+    with grpc.insecure_channel(address) as channel:
+        stub = GameStub(channel)
+        response = stub.TimeSync(TimeSyncRequest())
+        print(f"response: {response}")
+    if response.id != -1:
+        return response.id, response.time, address
+    else:
+        return None, None, None
+
+def main():
+    node_addresses = ['localhost:50052', 'localhost:50051', 'localhost:50053', "localhost:50054"]
+    leader_id, leader_time, address = None, None, None
+    while True:
+        for address in node_addresses:
+            print(f"Querying node at {address}...")
+            leader_id, leader_time, address = query_node(address)
+            if leader_id is not None:                
+                break
+
+        if leader_id is not None:
+                print(f"Node at {address} reports leader: Node {leader_id} with timestamp {leader_time}")
+                break
+        else:
+            print(f"Node at {address} reports no leader elected yet.")
+        time.sleep(5)
+    channel = grpc.insecure_channel(address)
+    game = GameComponent(GameStub(channel))
     game.run()
+
+
+if __name__ == '__main__':
+    main()
