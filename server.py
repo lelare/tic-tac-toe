@@ -4,7 +4,7 @@ import grpc
 import messages_pb2 as tictactoeserver_pb2
 import messages_pb2_grpc as tictactoeserver_pb2_grpc
 
-from game import Game
+from game_1 import Character, Game, Point
 
 class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
 
@@ -22,20 +22,49 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
         response.count_of_users = self.observers.keys().__len__()
         return response
 
-    def makeMove(self, request_iterator, context):
-        for move_request in request_iterator:
-            character = self.game.makeMove(move_request.id, move_request.point)
-            if character == tictactoeserver_pb2.Character.Value('UNRECOGNIZED'):
-                logging.warning(f"Wrong point for {move_request.point}")
+    def makeMove(self, move_request, context):
+
+        if move_request.id != self.turn_player:
+            logging.warning(f"Not {move_request.id}'s turn")
+            context.set_details('Not your turn')
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            return tictactoeserver_pb2.FillResponse(success=False)
+
+        cell_id = move_request.point
+        row = cell_id.x
+        col = cell_id.y
+
+        if self.game.board[row][col] != Character.EMPTY:
+            logging.warning(f"Cell {cell_id} is already occupied")
+            context.set_details('Cell already occupied')
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            return tictactoeserver_pb2.FillResponse(success=False)
+        character = self.game.makeMove(move_request.id, move_request.point)
+        if character == tictactoeserver_pb2.Character.Value('UNRECOGNIZED'):
+            logging.warning(f"Wrong point for {move_request.point}")
+            context.set_details('Invalid move')
+            context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+            return tictactoeserver_pb2.MoveResponse(success=False)
+        
+        timestamp = move_request.timestamp
+        success = False
+        while not success:
+            character = self.game.makeMove(move_request.id, Point(row, col))
+            if character == Character.UNRECOGNIZED:
+                logging.warning(f"Wrong point for {row}, {col}")
                 context.set_details('Invalid move')
                 context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
-                yield tictactoeserver_pb2.MoveResponse(success=False)
-            self.update_value(move_request, character)           
-            if self.game.isFinished():
-                logging.info(f"Game finished")
-                yield tictactoeserver_pb2.MoveResponse(success=False, message="Game finished")
-                self.game.reset()
-            yield tictactoeserver_pb2.MoveResponse(success=True, char=character, point=move_request.point)
+                return tictactoeserver_pb2.FillResponse(success=False)
+            success = True
+
+        self.turn_player = self.game.playerX if self.turn_player == self.game.playerO else self.game.playerO
+        
+        self.update_value(move_request, character)           
+        if self.game.isFinished():
+            logging.info(f"Game finished")
+            self.game.reset()
+            return tictactoeserver_pb2.MoveResponse(success=False, message="Game finished")
+        return tictactoeserver_pb2.MoveResponse(success=True, char=character, point=move_request.point)
 
     def update(self, request_iterator, context):
         for req in request_iterator: 
