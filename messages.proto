@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+
+package tictactoeserver;
+
+service Game {
+    rpc connect (ConnectionRequest) returns (PlayerResponse) {}
+    rpc update (stream UpdateRequest) returns (stream UpdateResponce) {}
+
+    rpc makeMove (stream MoveRequest) returns (stream MoveResponse) {}
+}
+
+message ConnectionRequest {
+    string id = 1;
+
+}
+
+message UpdateRequest {
+    string id = 1;
+
+}
+
+message PlayerResponse {
+    Point point = 1;
+    string character = 2;
+    int32 count_of_users = 3;
+}
+
+message UpdateResponce {
+    Point point = 1;
+    string character = 2;
+    int32 count_of_users = 3;
+}
+
+message MoveRequest {
+    string id = 1;
+    Point point = 2;
+}
+
+message MoveResponse {
+    bool success = 1;
+    string message = 2;
+    string character = 3;
+    Point point = 4;
+}
+
+message Point {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+enum Character {
+    X = 0;
+    O = 1;
+    EMPTY = 2;
+    UNRECOGNIZED = 3;
+}
