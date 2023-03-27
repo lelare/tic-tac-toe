@@ -31,7 +31,7 @@ message UpdateResponse {
     string character = 2;
     int32 count_of_users = 3;
     bool changes = 4;
-    string message 5;
+    string message = 5;
 }
 
 message MoveRequest {
