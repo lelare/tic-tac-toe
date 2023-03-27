@@ -9,6 +9,7 @@ service Game {
     rpc fill (FillRequest) returns (FillResponse) {}
     rpc Election (ElectionRequest) returns (ElectionResponse) {}
     rpc TimeSync (TimeSyncRequest) returns (TimeSyncResponse) {}
+    rpc ListBoard (Empty) returns (BoardState) {}
 }
 
 message ConnectionRequest {
@@ -84,4 +85,10 @@ message TimeSyncRequest {
 message TimeSyncResponse {
   int32 id = 1;
   double time = 2;
+}
+
+message Empty {}
+
+message BoardState {
+  repeated string board = 1;
 }

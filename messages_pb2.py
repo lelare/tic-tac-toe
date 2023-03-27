@@ -13,15 +13,15 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emessages.proto\x12\x0ftictactoeserver\"\x1f\n\x11\x43onnectionRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x1b\n\rUpdateRequest\x12\n\n\x02id\x18\x01 \x01(\t\"b\n\x0ePlayerResponse\x12%\n\x05point\x18\x01 \x01(\x0b\x32\x16.tictactoeserver.Point\x12\x11\n\tcharacter\x18\x02 \x01(\t\x12\x16\n\x0e\x63ount_of_users\x18\x03 \x01(\x05\"s\n\x0eUpdateResponse\x12%\n\x05point\x18\x01 \x01(\x0b\x32\x16.tictactoeserver.Point\x12\x11\n\tcharacter\x18\x02 \x01(\t\x12\x16\n\x0e\x63ount_of_users\x18\x03 \x01(\x05\x12\x0f\n\x07\x63hanges\x18\x04 \x01(\x08\"@\n\x0bMoveRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12%\n\x05point\x18\x02 \x01(\x0b\x32\x16.tictactoeserver.Point\"j\n\x0cMoveResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x11\n\tcharacter\x18\x03 \x01(\t\x12%\n\x05point\x18\x04 \x01(\x0b\x32\x16.tictactoeserver.Point\"=\n\x0b\x46illRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0f\n\x07\x63\x65ll_id\x18\x02 \x01(\x05\x12\x11\n\ttimestamp\x18\x03 \x01(\x03\"?\n\x0c\x46illResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\r\n\x05\x62oard\x18\x03 \x03(\t\"\x1d\n\x05Point\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"\x1d\n\x0f\x45lectionRequest\x12\n\n\x02id\x18\x01 \x01(\x05\",\n\x10\x45lectionResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04time\x18\x02 \x01(\x01\"\x1f\n\x0fTimeSyncRequest\x12\x0c\n\x04time\x18\x01 \x01(\x01\",\n\x10TimeSyncResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04time\x18\x02 \x01(\x01*$\n\tCharacter\x12\x05\n\x01X\x10\x00\x12\x05\n\x01O\x10\x01\x12\t\n\x05\x45MPTY\x10\x02\x32\xe1\x03\n\x04Game\x12P\n\x07\x63onnect\x12\".tictactoeserver.ConnectionRequest\x1a\x1f.tictactoeserver.PlayerResponse\"\x00\x12O\n\x06update\x12\x1e.tictactoeserver.UpdateRequest\x1a\x1f.tictactoeserver.UpdateResponse\"\x00(\x01\x30\x01\x12I\n\x08makeMove\x12\x1c.tictactoeserver.MoveRequest\x1a\x1d.tictactoeserver.MoveResponse\"\x00\x12\x45\n\x04\x66ill\x12\x1c.tictactoeserver.FillRequest\x1a\x1d.tictactoeserver.FillResponse\"\x00\x12Q\n\x08\x45lection\x12 .tictactoeserver.ElectionRequest\x1a!.tictactoeserver.ElectionResponse\"\x00\x12Q\n\x08TimeSync\x12 .tictactoeserver.TimeSyncRequest\x1a!.tictactoeserver.TimeSyncResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0emessages.proto\x12\x0ftictactoeserver\"\x1f\n\x11\x43onnectionRequest\x12\n\n\x02id\x18\x01 \x01(\t\"\x1b\n\rUpdateRequest\x12\n\n\x02id\x18\x01 \x01(\t\"b\n\x0ePlayerResponse\x12%\n\x05point\x18\x01 \x01(\x0b\x32\x16.tictactoeserver.Point\x12\x11\n\tcharacter\x18\x02 \x01(\t\x12\x16\n\x0e\x63ount_of_users\x18\x03 \x01(\x05\"s\n\x0eUpdateResponse\x12%\n\x05point\x18\x01 \x01(\x0b\x32\x16.tictactoeserver.Point\x12\x11\n\tcharacter\x18\x02 \x01(\t\x12\x16\n\x0e\x63ount_of_users\x18\x03 \x01(\x05\x12\x0f\n\x07\x63hanges\x18\x04 \x01(\x08\"@\n\x0bMoveRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12%\n\x05point\x18\x02 \x01(\x0b\x32\x16.tictactoeserver.Point\"j\n\x0cMoveResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x11\n\tcharacter\x18\x03 \x01(\t\x12%\n\x05point\x18\x04 \x01(\x0b\x32\x16.tictactoeserver.Point\"=\n\x0b\x46illRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0f\n\x07\x63\x65ll_id\x18\x02 \x01(\x05\x12\x11\n\ttimestamp\x18\x03 \x01(\x03\"?\n\x0c\x46illResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\r\n\x05\x62oard\x18\x03 \x03(\t\"\x1d\n\x05Point\x12\t\n\x01x\x18\x01 \x01(\x05\x12\t\n\x01y\x18\x02 \x01(\x05\"\x1d\n\x0f\x45lectionRequest\x12\n\n\x02id\x18\x01 \x01(\x05\",\n\x10\x45lectionResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04time\x18\x02 \x01(\x01\"\x1f\n\x0fTimeSyncRequest\x12\x0c\n\x04time\x18\x01 \x01(\x01\",\n\x10TimeSyncResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04time\x18\x02 \x01(\x01\"\x07\n\x05\x45mpty\"\x1b\n\nBoardState\x12\r\n\x05\x62oard\x18\x01 \x03(\t*$\n\tCharacter\x12\x05\n\x01X\x10\x00\x12\x05\n\x01O\x10\x01\x12\t\n\x05\x45MPTY\x10\x02\x32\xa5\x04\n\x04Game\x12P\n\x07\x63onnect\x12\".tictactoeserver.ConnectionRequest\x1a\x1f.tictactoeserver.PlayerResponse\"\x00\x12O\n\x06update\x12\x1e.tictactoeserver.UpdateRequest\x1a\x1f.tictactoeserver.UpdateResponse\"\x00(\x01\x30\x01\x12I\n\x08makeMove\x12\x1c.tictactoeserver.MoveRequest\x1a\x1d.tictactoeserver.MoveResponse\"\x00\x12\x45\n\x04\x66ill\x12\x1c.tictactoeserver.FillRequest\x1a\x1d.tictactoeserver.FillResponse\"\x00\x12Q\n\x08\x45lection\x12 .tictactoeserver.ElectionRequest\x1a!.tictactoeserver.ElectionResponse\"\x00\x12Q\n\x08TimeSync\x12 .tictactoeserver.TimeSyncRequest\x1a!.tictactoeserver.TimeSyncResponse\"\x00\x12\x42\n\tListBoard\x12\x16.tictactoeserver.Empty\x1a\x1b.tictactoeserver.BoardState\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'messages_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _CHARACTER._serialized_start=803
-  _CHARACTER._serialized_end=839
+  _CHARACTER._serialized_start=841
+  _CHARACTER._serialized_end=877
   _CONNECTIONREQUEST._serialized_start=35
   _CONNECTIONREQUEST._serialized_end=66
   _UPDATEREQUEST._serialized_start=68
@@ -48,6 +48,10 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _TIMESYNCREQUEST._serialized_end=755
   _TIMESYNCRESPONSE._serialized_start=757
   _TIMESYNCRESPONSE._serialized_end=801
-  _GAME._serialized_start=842
-  _GAME._serialized_end=1323
+  _EMPTY._serialized_start=803
+  _EMPTY._serialized_end=810
+  _BOARDSTATE._serialized_start=812
+  _BOARDSTATE._serialized_end=839
+  _GAME._serialized_start=880
+  _GAME._serialized_end=1429
 # @@protoc_insertion_point(module_scope)
