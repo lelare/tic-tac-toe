@@ -58,7 +58,7 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
         if not self.game.newPlayer(request.id):
             context.set_details('Game already full')
             context.set_code(grpc.StatusCode.UNAVAILABLE)
-            return tictactoeserver_pb2.PlayerResponse(count_of_users=self.game.numPlayers())
+            return tictactoeserver_pb2.PlayerResponse(count_of_users=self.observers.keys().__len__())
 
         if self.turn_player is None:
             self.turn_player = self.game.playerX
@@ -147,6 +147,11 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
                 for val, update in copy_updates.items():
                     if val == req.id:
                         yield update
+
+    def ListBoard(self, request, context):
+        board_state = tictactoeserver_pb2.BoardState()
+        board_state.board.extend([c for row in self.game.board for c in row])
+        return board_state
 
     def update_value(self, move_request, character): 
         player_response = tictactoeserver_pb2.UpdateResponse()

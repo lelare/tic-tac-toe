@@ -44,6 +44,11 @@ class GameStub(object):
                 request_serializer=messages__pb2.TimeSyncRequest.SerializeToString,
                 response_deserializer=messages__pb2.TimeSyncResponse.FromString,
                 )
+        self.ListBoard = channel.unary_unary(
+                '/tictactoeserver.Game/ListBoard',
+                request_serializer=messages__pb2.Empty.SerializeToString,
+                response_deserializer=messages__pb2.BoardState.FromString,
+                )
 
 
 class GameServicer(object):
@@ -85,6 +90,12 @@ class GameServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ListBoard(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_GameServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -117,6 +128,11 @@ def add_GameServicer_to_server(servicer, server):
                     servicer.TimeSync,
                     request_deserializer=messages__pb2.TimeSyncRequest.FromString,
                     response_serializer=messages__pb2.TimeSyncResponse.SerializeToString,
+            ),
+            'ListBoard': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListBoard,
+                    request_deserializer=messages__pb2.Empty.FromString,
+                    response_serializer=messages__pb2.BoardState.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -227,5 +243,22 @@ class Game(object):
         return grpc.experimental.unary_unary(request, target, '/tictactoeserver.Game/TimeSync',
             messages__pb2.TimeSyncRequest.SerializeToString,
             messages__pb2.TimeSyncResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ListBoard(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/tictactoeserver.Game/ListBoard',
+            messages__pb2.Empty.SerializeToString,
+            messages__pb2.BoardState.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
