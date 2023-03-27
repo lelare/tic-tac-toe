@@ -65,7 +65,6 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
 
         user_id = request.id
         self.observers[user_id] = context
-        print(dir(context))
         logging.info(f"Connecting user: {request.id}")
         response = tictactoeserver_pb2.PlayerResponse()
         response.count_of_users = self.observers.keys().__len__()
@@ -154,6 +153,7 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
         player_response.character = character
         player_response.point.x = move_request.point.x
         player_response.point.y = move_request.point.y
+        player_response.changes = True
         for val in self.observers.keys():
             if val not in self.updates.keys():
                 self.updates[val]=(player_response)
@@ -163,7 +163,7 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
         player_response.character = character
         player_response.point.x = move_request.point.x
         player_response.point.y = move_request.point.y
-            
+        player_response.changes = True    
         for val, observer in self.observers.items():
 
             observer.update(player_response)
