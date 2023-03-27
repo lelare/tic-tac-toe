@@ -29,6 +29,7 @@ message UpdateResponse {
     Point point = 1;
     string character = 2;
     int32 count_of_users = 3;
+    bool changes = 4;
 }
 
 message MoveRequest {
