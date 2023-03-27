@@ -3,15 +3,15 @@ import time
 import uuid
 from grpc import RpcError
 import grpc
-from messages_pb2 import ConnectionRequest, MoveRequest, Point, UpdateRequest, TimeSyncRequest, TimeSyncResponse, ElectionRequest, ElectionResponse
+from messages_pb2 import ConnectionRequest, MoveRequest, Point, UpdateRequest, TimeSyncRequest, TimeSyncResponse, ElectionRequest, ElectionResponse, Empty
 from messages_pb2_grpc import GameStub
 from concurrent.futures import ThreadPoolExecutor
 import threading
 
 class GameComponent:
-    def __init__(self, client):
+    def __init__(self, game):
         self.map = {i: ' ' for i in range(9)}
-        self.client = client
+        self.client = game
         self.user = str(uuid.uuid4())
 
         self.draw_board()
@@ -24,10 +24,22 @@ class GameComponent:
             logging.error(e)
         
     def handle_updates(self):
-        def request_generator():
-                yield UpdateRequest(id=self.user)
-
-        for response in self.client.update(request_generator):
+        while True: 
+            def request_generator():
+                    yield UpdateRequest(id=self.user)
+            response = None
+            try:
+                response = next(self.client.update(request_generator()))
+            except Exception as e:
+                print(f"Exception occurred: {e}")
+            if response is None or response.changes == False:
+                time.sleep(5)
+                continue
+            if response.message is not None and "won" in response.message:
+                print(response.message)
+                self.update_map(response)
+                self.draw_board()
+                break
             self.update_map(response)
             self.draw_board()
             time.sleep(5)
@@ -48,22 +60,40 @@ class GameComponent:
     def run(self):
         self.connect_to_server()
         thread = threading.Thread(target=self.handle_updates, daemon=True)
+        thread.start()
         while True:
-            point = int(input('Enter your move (0-8) or 10 to end the game: '))
+            point = int(input('Enter your move (0-8) or 9 to list board or 10 to end the game: '))
             if point == 10: 
                 thread.join()
                 break
-            x, y = divmod(point, 3)
-            try:
-                response = self.client.makeMove(MoveRequest(point=Point(x=x, y=y), id=self.user))
-                if response.success:
-                    print('Move successful')
-                    self.update_map(response)
-                    self.draw_board()
-                else:
-                    print('Move not allowed')
-            except RpcError as e:
-                logging.error(e)
+            elif point == 9:
+                self.list_board()
+                continue
+            else:
+                x, y = divmod(point, 3)
+                try:
+                    responsing = self.client.makeMove(MoveRequest(id=self.user, point=Point(x=x, y=y)))
+                    if responsing.success:
+                        print('Move successful')
+                        self.update_map(responsing)
+                        self.draw_board()
+                    else:
+                        print('Move not allowed')
+                except RpcError as e:
+                    logging.error(e)
+
+    def list_board(self):
+        try:
+            response = self.client.ListBoard(Empty())
+            board = [response.board[i:i+3] for i in range(0, len(response.board), 3)]
+            print('\nCurrent board state:')
+            for row in board:
+                print(' | '.join(row))
+            print('\n')
+        except grpc.RpcError as e:
+            print(f'Error: {e}')
+
+
 
 def query_node(address):
     with grpc.insecure_channel(address) as channel:
