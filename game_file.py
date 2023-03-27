@@ -47,7 +47,7 @@ class GameComponent:
     def update_map(self, response):
         point = response.point
         p = point.y + point.x + 2 * point.x
-        print(f'{response.character} move to {p}')
+        print(f'{response.character} move to {p+1}')
         self.map[p] = response.character
 
     def draw_board(self):
@@ -62,15 +62,15 @@ class GameComponent:
         thread = threading.Thread(target=self.handle_updates, daemon=True)
         thread.start()
         while True:
-            point = int(input('Enter your move (0-8) or 9 to list board or 10 to end the game: '))
-            if point == 10: 
+            point = int(input('Enter your move (1-9) or 10 to list board or 0 to end the game: '))
+            if point == 0: 
                 thread.join()
                 break
-            elif point == 9:
+            elif point == 10:
                 self.list_board()
                 continue
             else:
-                x, y = divmod(point, 3)
+                x, y = divmod(point-1, 3)
                 try:
                     responsing = self.client.makeMove(MoveRequest(id=self.user, point=Point(x=x, y=y)))
                     if responsing.success:

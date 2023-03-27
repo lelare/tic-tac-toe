@@ -133,7 +133,7 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
         if self.game.isFinished():
             logging.info(f"Game finished")
             move_resp = tictactoeserver_pb2.MoveResponse(success=False, message=f"Game finished! {character} won!")
-            self.update_value(move_request, character, "Game finished! {character} won!")           
+            self.update_value(move_request, character, f"Game finished! {character} won!")           
             self.game.reset()
             return move_resp
         self.update_value(move_request, character)   
@@ -156,7 +156,7 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
         board_state.board.extend([c for row in self.game.board for c in row])
         return board_state
 
-    def update_value(self, move_request, character, message=None): 
+    def update_value(self, move_request, character, message=''): 
         player_response = tictactoeserver_pb2.UpdateResponse()
         player_response.character = character
         player_response.point.x = move_request.point.x
