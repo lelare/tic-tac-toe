@@ -70,7 +70,6 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
         response.count_of_users = self.observers.keys().__len__()
         return response
 
-    def fill(self, request, context):
         if request.id != self.turn_player:
             logging.warning(f"Not {request.id}'s turn")
             context.set_details('Not your turn')
@@ -131,11 +130,13 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
 
         self.turn_player = self.game.playerX if self.turn_player == self.game.playerO else self.game.playerO
         
-        self.update_value(move_request, character)           
         if self.game.isFinished():
             logging.info(f"Game finished")
+            move_resp = tictactoeserver_pb2.MoveResponse(success=False, message=f"Game finished! {character} won!")
+            self.update_value(move_request, character, "Game finished! {character} won!")           
             self.game.reset()
-            return tictactoeserver_pb2.MoveResponse(success=False, message="Game finished")
+            return move_resp
+        self.update_value(move_request, character)   
         return tictactoeserver_pb2.MoveResponse(success=True, character=character, point=move_request.point)
 
     def update(self, request_iterator, context):
@@ -147,18 +148,21 @@ class TicTacToeServer(tictactoeserver_pb2_grpc.GameServicer):
                 for val, update in copy_updates.items():
                     if val == req.id:
                         yield update
+            else: 
+                yield tictactoeserver_pb2.UpdateResponse(changes=False)
 
     def ListBoard(self, request, context):
         board_state = tictactoeserver_pb2.BoardState()
         board_state.board.extend([c for row in self.game.board for c in row])
         return board_state
 
-    def update_value(self, move_request, character): 
+    def update_value(self, move_request, character, message=None): 
         player_response = tictactoeserver_pb2.UpdateResponse()
         player_response.character = character
         player_response.point.x = move_request.point.x
         player_response.point.y = move_request.point.y
         player_response.changes = True
+        player_response.message = message
         for val in self.observers.keys():
             if val not in self.updates.keys():
                 self.updates[val]=(player_response)
